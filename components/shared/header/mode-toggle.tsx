@@ -1,4 +1,5 @@
 'use client';
+import LoadingPage from "@/app/loading";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuContent, DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
 import { SunIcon, MoonIcon, SunMoon } from "lucide-react";
@@ -15,7 +16,7 @@ const ModeToggle = () => {
     },[]);
 
     if(!mounted){
-        return null;
+        return <LoadingPage/>;
     }
     return ( 
         <DropdownMenu>

@@ -1,11 +1,22 @@
 'use client';
 
+import LoadingPage from "@/app/loading";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductImages = ({images}:{images:string[]}) => {
     const [current, setCurrent] = useState(0);
+    const [ mounted, setMounted ] = useState(false);
+
+    useEffect(()=>{
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMounted(true);
+    },[]);
+
+    if(!mounted){
+        return <LoadingPage/>;
+    }
 
     return ( 
         <div className="flex flex-col gap-4">
