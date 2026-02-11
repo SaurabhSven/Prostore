@@ -1,8 +1,10 @@
 
+import AddToCart from "@/components/shared/product/add-to-cart";
 import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getMyCart } from "@/lib/actions/cart.actions";
 import { getProductBySlug } from "@/lib/actions/product.actions";
 import { Product } from "@/types";
 import { notFound } from "next/navigation";
@@ -13,6 +15,7 @@ const ProductDetailsPage = async (props:{
     const { slug } = await props.params;
     const product: Product | null = await getProductBySlug(slug);
     if(!product) notFound();
+    const cart = await getMyCart();
 
     return (
     <>
@@ -40,7 +43,18 @@ const ProductDetailsPage = async (props:{
                         {product.description}
                     </span>
                 </p>
-                <Button className="mt-6" size={'lg'} disabled={product.stock <= 0}>{product.stock > 0 ? "Add to Cart" : "Out Of Stock"} </Button>
+                <AddToCart 
+                cart={cart}
+                item={
+                    {
+                        productId:product.id,
+                        name:product.name,
+                        slug:product.slug,
+                        qty:1,
+                        image:product.images![0],
+                        price:product.price
+                    }
+                } />
             </div>
         </div>
 
