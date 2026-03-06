@@ -5,7 +5,7 @@ import { convertToPlainObject, formatError } from "../utils";
 import { auth } from "@/auth";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
-import { insertOrderSchema, paymentMethodSchema } from "../validators";
+import { insertOrderSchema } from "../validators";
 import { prisma } from "../prisma";
 import { CartItem, PaymentResult } from "@/types";
 import { paypal } from "../paypal";
