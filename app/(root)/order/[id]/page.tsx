@@ -20,7 +20,8 @@ const OrderDetailsPage = async (props: {
         <>
             <OrderDetailsTable order={{
                 ...order,
-                shippingAddress:order.shippingAddress as ShippingAddress,
+                shippingAddress: order.shippingAddress as ShippingAddress,
+                user: { ...order.user, name: order.user.name ?? '' },
             }} paypalClientId={process.env.PAYPAL_CLIENT_ID || 'sb' } />
         </>
     );
