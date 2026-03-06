@@ -5,10 +5,10 @@ import { CartItem } from "@/types";
 import { cookies } from "next/headers";
 import { prisma } from "../prisma";
 import { convertToPlainObject, formatError, round2 } from "../utils";
-import { cartItemSchema, insertCartSchema } from "../validators";
+import { cartItemSchema, insertCartSchema, paymentMethodSchema } from "../validators";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "../generated/prisma/client";
-
+import {success, z} from 'zod'
 
 // Calculate cart prices
 const calcPrice = (items:CartItem[]) => {
@@ -197,5 +197,35 @@ export async function removeItemFromCart(productId:string){
             success:false,
             message: formatError(error)
         }
+    }
+}
+
+// Update user's payment method
+export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethodSchema>){
+    try {
+        const session = await auth();
+
+        const currentUser = await prisma.user.findFirst({
+            where:{id:session?.user?.id}
+        });
+
+        if(!currentUser) throw new Error("User Not Found");
+
+        const paymentethod = paymentMethodSchema.parse(data);
+
+        await prisma.user.update({
+            where:{id:currentUser.id},
+            data:{paymentMethod:paymentethod.type}
+        });
+
+        return {
+            success:true,
+            message:"User updated payment method successfully"
+        }
+    } catch (error) {
+        return {
+            success:false,
+            message:formatError(error)
+        }    
     }
 }
