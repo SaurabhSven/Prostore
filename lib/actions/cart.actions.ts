@@ -28,6 +28,7 @@ const calcPrice = (items:CartItem[]) => {
 }
 
 export async function  addItemToCart(data: CartItem){
+    console.log("data",data)
     try {
         // Check for cart cookie
         const sessionCartId = (await cookies()).get('sessionCartId')?.value;
@@ -40,6 +41,7 @@ export async function  addItemToCart(data: CartItem){
         
         // Get cart 
         const cart = await getMyCart();
+        console.log("Cart",cart);
         
         // Parse and validate item
         const item = cartItemSchema.parse(data);
@@ -50,7 +52,7 @@ export async function  addItemToCart(data: CartItem){
         })
 
         if(!product) throw new Error("Product not found");
-
+        console.log(product);
         if(!cart){
             // Create new cart
             const newCart = insertCartSchema.parse({
@@ -75,7 +77,7 @@ export async function  addItemToCart(data: CartItem){
         }else{
             // Check if item already exists in cart
             const existItem = (cart.items as CartItem[]).find((x)=>x.productId === item.productId);
-
+            console.log("existItem",existItem);
             if(existItem){
                 // Check Stock 
                 if(product.stock <= existItem.qty) throw new Error("Not enough stock");

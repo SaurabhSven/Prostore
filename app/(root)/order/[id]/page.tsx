@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import {OrderItem, ShippingAddress} from "@/types";
 import OrderDetailsTable from "./order-details-table";
 
-const metadata:Metadata={
+export const metadata:Metadata={
     title:'Order Details'
 }
 

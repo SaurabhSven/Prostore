@@ -42,7 +42,7 @@ const AddToCart = ({cart, item}:{cart?:Cart, item:CartItem}) => {
             return;
         })
     }
-
+    
     // Check if item is in cart
     const existItem  = cart && cart.items.find((x)=>x.productId === item.productId);
     return existItem ? (
@@ -65,10 +65,10 @@ const AddToCart = ({cart, item}:{cart?:Cart, item:CartItem}) => {
             </Button>
         </div>
     ) : ( <>
-        <Button className="mt-6" size={'lg'} onClick={handleAddToCart} disabled={item.qty <= 0}>
+        <Button className="mt-6" size={'lg'} onClick={handleAddToCart} disabled={item.qty == 0}>
             {isPending ? (
                     <Loader className="h-4 w-4 animate-spin"/>
-                ) : item.qty > 0 ? "Add to Cart" : "Out Of Stock" 
+                ) : item.qty >= 1 ? "Add to Cart" : "Out Of Stock" 
             }
         </Button>
     </> );
