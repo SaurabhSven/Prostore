@@ -32,7 +32,7 @@ const ProductDetailsPage = async (props:{
                 </div>
                 <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
                 <p className="mb-5 text-right">
-                    {product.rating} Stars | {product.numReviews} Reviews
+                    {product.rating} Stars | {0} Reviews
                 </p>
                 <ProductPrice value={product.price} className="text-4xl"/>
                 <p className="mt-4 flex flex-col gap-1">
