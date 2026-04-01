@@ -64,12 +64,12 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
+                  <FieldLabel htmlFor="fullName">
                     Full Name
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="fullName"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter Full Name"
                     autoComplete="off"
@@ -87,12 +87,12 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
+                  <FieldLabel htmlFor="streetAddress">
                     Address
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="streetAddress"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter Address"
                     autoComplete="off"
@@ -110,12 +110,12 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
+                  <FieldLabel htmlFor="city">
                     City
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="city"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter City"
                     autoComplete="off"
@@ -133,12 +133,12 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
+                  <FieldLabel htmlFor="postalCode">
                     Postal Code
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="postalCode"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter Postal Code"
                     autoComplete="off"
@@ -156,12 +156,12 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
+                  <FieldLabel htmlFor="country">
                     Country
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-title"
+                    id="country"
                     aria-invalid={fieldState.invalid}
                     placeholder="Enter Country"
                     autoComplete="off"
