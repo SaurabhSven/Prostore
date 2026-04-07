@@ -24,7 +24,7 @@ const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', 
     const router = useRouter();
 
     const form = useForm({
-        resolver: zodResolver(type === 'Update' ? updateProductSchema : insertProductSchema),
+        resolver: zodResolver(insertProductSchema),
         defaultValues: type === 'Update' ? product : productDefaultValues
     })
 
