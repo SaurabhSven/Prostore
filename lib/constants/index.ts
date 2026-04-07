@@ -31,14 +31,14 @@ export const productDefaultValues={
     name:'',
     slug:'',
     category:'',
-    images:[],
+    images: [] as string[],
     brand:'',
     description:'',
     price:'0',
     stock: 0,
     isFeatured:false,
-    banner:null,
-}   
+    banner: null as string | null,
+}
 
 
 export const USER_ROLES = process.env.USER_ROLES ? process.env.USER_ROLES.split(', ') : ['user', 'admin'];

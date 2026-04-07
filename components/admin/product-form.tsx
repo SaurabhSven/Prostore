@@ -22,12 +22,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', product?: Product, productId?: string }) => {
     const router = useRouter();
 
-    const form = useForm({
+    const form = useForm<z.infer<typeof insertProductSchema>>({
         resolver: zodResolver(insertProductSchema),
-        defaultValues: type === 'Update' ? product : productDefaultValues
+        defaultValues: type === 'Update' && product ? product : productDefaultValues
     })
 
-    const onSubmit:SubmitHandler<z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>> = async (values) => {
+    const onSubmit:SubmitHandler<z.infer<typeof insertProductSchema>> = async (values) => {
         // On Create
         if(type === 'Create'){
             const res = await createProduct(values);
