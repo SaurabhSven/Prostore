@@ -198,6 +198,9 @@ const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', 
                             <Input
                                 {...field}
                                 id="stock"
+                                type="number"
+                                // value={field.value ?? ''}
+                                onChange={(event) => field.onChange(Number(event.target.value))}
                                 aria-invalid={fieldState.invalid}
                                 placeholder="Enter Stock Quantity"
                                 autoComplete="off"
