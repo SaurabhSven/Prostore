@@ -7,7 +7,6 @@ import { productDefaultValues } from "@/lib/constants";
 import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
@@ -268,7 +267,7 @@ const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', 
                                     }
 
                                     {
-                                        isFeatured && banner && (
+                                        isFeatured && (
                                             <UploadButton 
                                                 endpoint="imageUploader" 
                                                 onClientUploadComplete={(res:{url:string}[])=>{form.setValue('banner', res[0].url)}} 
