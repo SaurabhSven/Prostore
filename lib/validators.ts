@@ -13,12 +13,11 @@ export const insertProductSchema = z.object({
     category: z.string().min(3, 'Category must be at least 3 characters long'),
     brand: z.string().min(3, 'Brand must be at least 3 characters long'),
     description: z.string().min(3, 'Description must be at least 3 characters long'),
-    stock: z.coerce.number().min(0, 'Stock cannot be negative'),
+    stock: z.number().min(0, 'Stock cannot be negative'),
     images: z.array(z.string()).min(1, 'Product have at least one image'),
     isFeatured: z.boolean(),
     banner: z.string().nullable(),
     price: currency,
-    // numReviews: z.coerce.number().nullable()
 });
 
 // Schema for updating products
@@ -118,4 +117,11 @@ export const paymentResultSchema = z.object({
 export const updateProfileSchema = z.object({
     name: z.string().min(3, 'Name must be at atleast 3 characters'),
     email: z.string().min(3, 'Email must be at atleast 3 characters'),
+})
+
+
+// Schema for updating the user 
+export const updateUserSchema = updateProfileSchema.extend({
+    id:z.string().min(1, 'User ID is required'),
+    role:z.string().min(1, 'Role is required'),
 })

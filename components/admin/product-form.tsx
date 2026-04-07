@@ -24,11 +24,11 @@ const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', 
     const router = useRouter();
 
     const form = useForm({
-        resolver: type === 'Update' ? zodResolver(updateProductSchema) : zodResolver(insertProductSchema),
-        defaultValues: product && type === 'Update' ? product : productDefaultValues
+        resolver: zodResolver(type === 'Update' ? updateProductSchema : insertProductSchema),
+        defaultValues: type === 'Update' ? product : productDefaultValues
     })
 
-    const onSubmit:SubmitHandler<z.infer<typeof insertProductSchema>> = async (values) => {
+    const onSubmit:SubmitHandler<z.infer<typeof insertProductSchema> | z.infer<typeof updateProductSchema>> = async (values) => {
         // On Create
         if(type === 'Create'){
             const res = await createProduct(values);
@@ -268,7 +268,7 @@ const ProductForm = ({ type, product, productId }: { type: 'Create' | 'Update', 
                                     }
 
                                     {
-                                        isFeatured && !banner && (
+                                        isFeatured && banner && (
                                             <UploadButton 
                                                 endpoint="imageUploader" 
                                                 onClientUploadComplete={(res:{url:string}[])=>{form.setValue('banner', res[0].url)}} 
