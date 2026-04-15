@@ -5,6 +5,7 @@ import { prisma } from "../prisma";
 import { convertToPlainObject, formatError } from "../utils";
 import z from "zod";
 import { insertProductSchema, updateProductSchema } from "../validators";
+import { Prisma } from "../generated/prisma/client";
 
 // Get Latest products
 export async function getLatestProducts(){
@@ -38,15 +39,59 @@ export async function getAllProducts({
     query,
     limit=PAGE_SIZE,
     page,
-    category
+    category,
+    price,
+    rating,
+    sort
 }:{
     query:string,
     limit?:number,
     page:number,
-    category:string
+    category?:string,
+    price?:string,
+    rating?:string,
+    sort?:string
 }){
+
+    // Query Filter
+    const queryFilter:Prisma.ProductWhereInput = query && query!=='' ? {
+        name:{
+            contains:query,
+            mode:'insensitive'
+        } as Prisma.StringFilter
+    }:{};
+
+    // Category Filter
+    const categoryFilter:Prisma.ProductWhereInput = category && category !== 'all' ? {category}:{};
+
+    // Price Filter
+    const priceFilter:Prisma.ProductWhereInput = price && price!=='all' ? {
+        price:{
+            gte:Number(price.split('-')[0]),
+            lte:Number(price.split('-')[1])
+        }
+    }:{};
+
+    // Rating Filter
+    const ratingFilter:Prisma.ProductWhereInput = rating && rating !== 'all' ? {
+        rating:{
+            gte:Number(rating)
+        }
+    }:{};
+
     const data = await prisma.product.findMany({
-        orderBy:{ createdAt:'desc' },
+        where:{
+            ...queryFilter,
+            ...categoryFilter,
+            ...priceFilter,
+            ...ratingFilter
+        },
+        orderBy: sort === 'newest'
+        ? { createdAt:'desc' } : sort === 'oldest'
+        ? { createdAt:'asc' } : sort === 'lowest' 
+        ? { price:'asc' } : sort === 'highest'
+        ? { price:'desc' } : sort === 'rating' 
+        ? { rating:'desc' } : { createdAt:'desc' },
         skip:(page - 1) * limit,
         take:limit
     });
@@ -139,4 +184,28 @@ export async function updateProduct(data:z.infer<typeof updateProductSchema>){
             message: formatError(error)
         }
     }
+}
+
+
+// Get All Categories
+
+export async function getAllCategories(){
+    const data = await prisma.product.groupBy({
+        by:['category'],
+        _count:true
+    })
+
+    return data;
+}
+
+
+// Get Featured Products
+export async function getFeaturedProducts(){
+    const data = await prisma.product.findMany({
+        where:{ isFeatured:true },
+        orderBy:{ createdAt:'desc' },
+        take:4
+    });
+
+    return convertToPlainObject(data);
 }

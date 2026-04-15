@@ -10,6 +10,7 @@ import { formatError } from "../utils";
 import { PAGE_SIZE } from "../constants";
 import { revalidatePath } from "next/cache";
 import z from "zod";
+import { Prisma } from "../generated/prisma/client";
 // Sign in the user with credentials
 export async function signInWithCredentials(prevState:unknown, formData:FormData){
     try {
@@ -146,8 +147,19 @@ export async function updateProfile(user:{name:string, email:string}){
 
 
 // Get all users
-export async function getAllUsers({limit= PAGE_SIZE, page}:{limit?:number, page:number}){
+export async function getAllUsers({limit= PAGE_SIZE, page, query}:{limit?:number, page:number, query:string}){
+
+    const queryFilter:Prisma.UserWhereInput = query && query!=='' ? {
+        name:{
+            contains:query,
+            mode:'insensitive'
+        } as Prisma.StringFilter
+        }:{};
+
     const data = await prisma.user.findMany({
+        where:{
+            ...queryFilter
+        },
         orderBy:{ updatedAt:'desc' },
         skip:(page - 1) * limit, 
         take:limit

@@ -12,14 +12,30 @@ export const metadata:Metadata={
     title:'Admin Users',
 }
 
-const AdminUserPage = async (props:{searchParams:Promise<{page:string}>}) => {
+const AdminUserPage = async (props:{searchParams:Promise<{page:string, query?:string}>}) => {
 
-    const {page='1'} = await props.searchParams;
-    const users = await getAllUsers({page:Number(page)});
+    const {page='1', query} = await props.searchParams;
+    const users = await getAllUsers({page:Number(page), query:query || ''});
 
     return (
         <div className="space-y-2">
-            <h2 className="h2-bold">Users</h2>
+            <div className="flex items-center gap-3">
+                <h2 className="h2-bold">Users</h2>
+                {
+                    query && (
+                        <div>
+                            <span className="text-sm text-muted-foreground">
+                                {`Search results for "${query}"`}
+                            </span>
+                            <Link href={'/admin/users'}>
+                                <Button variant={'link'} size={'sm'} className="ml-2">
+                                    Clear Search
+                                </Button>
+                            </Link>
+                        </div>
+                    )
+                }
+            </div>
             <div className="overflow-x-auto">
                 <Table>
                     <TableHeader>
